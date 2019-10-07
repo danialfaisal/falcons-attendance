@@ -1,0 +1,60 @@
+{% extends 'available/base.html' %}
+{% block content %}
+
+    <form action="{% url 'available:confirm' assc.id %}" method="post">
+        {% csrf_token %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Match Date</th>
+                            <th>Match Time</th>
+                            <th>Match Location</th>
+                            <th>Match Opponent</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for att in att_list %}
+                            <tr>
+                                <td>{{att.match.date}}</td>
+                                <td>{{att.match.time}}</td>
+                                <td>{{att.match.location}}</td>
+                                <td>{{att.match.opponent}}</td>
+                                <td>
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                                        {% if att.availability %}
+                                            <label class="btn btn-outline-success active">
+                                                <input type="radio" name="{{ att.match.id }}" id="option1" autocomplete="off" value="present" checked> Available
+                                            </label>
+
+                                            <label class="btn btn-outline-danger">
+                                                <input type="radio" name="{{ att.match.id }}" id="option2" autocomplete="off" value="absent"> NOT Available
+                                            </label>
+                                        {% else %}
+                                            <label class="btn btn-outline-success">
+                                                <input type="radio" name="{{ att.match.id }}" id="option1" autocomplete="off" value="present" > Available
+                                            </label>
+
+                                            <label class="btn btn-outline-danger active">
+                                                <input type="radio" name="{{ att.match.id }}" id="option2" autocomplete="off" value="absent" checked> NOT Available
+                                            </label>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <input class="btn btn-success" type="submit" value="Submit">
+    </form>
+
+{% endblock %}

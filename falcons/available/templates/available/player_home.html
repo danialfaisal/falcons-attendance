@@ -1,0 +1,44 @@
+{% extends 'available/base.html' %}
+
+{% block content %}
+    <div class="card mb-3">
+        <div class="card-header">
+              <i class="fas fa-table"></i>
+            <b>All Tournaments</b></div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                        <th>Tournament</th>
+                        <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for tournament in player.assign_set.all %}
+                    <tr>
+                        <td>{{ tournament.tournament }}</td>
+                        {% if tournament.status == 0 %}
+                            <td class="p-3 mb-2 bg-danger text-white">Not Marked</td>
+                            <td>
+                                <a class="btn btn-primary" href="{% url 'available:t_attendance' tournament.id %}" role="button">Mark Availability</a>
+                            </td>
+
+                        {% elif tournament.status == 1 %}
+                            <td class="p-3 mb-2 bg-success text-white">Marked</td>
+                            <td><a class="btn btn-secondary" href="{% url 'available:edit_att' tournament.id %}" role="button">Edit Availability</a> </td>
+
+                        {% else %}
+                            <td class="p-3 mb-2 bg-warning text-white">Cancelled</td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                            <p>You are not assigned to any Match</p>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+              </div>
+        </div>
+    </div>
+{% endblock %}

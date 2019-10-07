@@ -1,0 +1,36 @@
+{% extends 'available/base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="row">
+        <h2 style="padding-left: 15Px">List of Assignments</h2>
+    </div>
+    <div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr class="bg-info">
+                <th>Tournament</th>
+                <th>Player</th>
+                <th colspan="3">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for assign in assigns %}
+                <tr>
+                    <td>{{ assign.tournament }}</td>
+                    <td>{{ assign.player }}</td>
+                    <td><a href="{% url 'available:assign_edit' pk=assign.id %}" class="btn btn-warning">Edit</a></td>
+                    <td><a href="{% url 'available:assign_delete' pk=assign.id %}"
+                           onclick="return confirm('Are you sure you want to delete?')"
+                           class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            <a href="{% url 'available:assign_new' %}"><span
+                    class="btn btn-primary">Add Assignment</span></a>
+        </div>
+    </div>
+{% endblock %}

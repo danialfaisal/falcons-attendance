@@ -1,0 +1,25 @@
+{% extends 'available/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="row">
+        <h2 style="padding-left: 15Px">List of Available Players</h2>
+    </div>
+    <div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr class="bg-info">
+                <th>Players</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for player in b %}
+                <tr>
+                    <td>{{player.assign.player}}</td>
+                </tr>
+            {% empty %}
+                <p>No Player is Available for this Match</p>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

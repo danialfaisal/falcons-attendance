@@ -1,0 +1,82 @@
+{% extends 'available/base.html' %}
+
+{% block content %}
+    {% load static %}
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Jumbotron Header -->
+    <header>
+        <h1 class="display-3 text-capitalize">Welcome {{ request.user.captain.name }}</h1>
+        {#        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>#}
+        {#        <a href="#" class="btn btn-primary btn-lg">Call to action!</a>#}
+    </header>
+
+    <!-- Page Features -->
+    <div class="row text-center">
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <a href="#">
+                    <img class="card-img-top" src="{% static 'info/images/reports.png' %}" alt="">
+                </a>
+                <div class="card-body">
+                    <h4 class="card-title">Tournaments</h4>
+                    <p class="card-text">Edit, Update or Delete Tournaments</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary" role="button" href="{% url 'available:tournament_list' %}">View</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <a href="#">
+                    <img class="card-img-top" src="{% static 'info/images/attendance.jpg' %}" alt="">
+                </a>
+                <div class="card-body">
+                    <h4 class="card-title">Matches</h4>
+                    <p class="card-text">Edit, Update or Delete Grade Matches</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary" role="button" href="{% url 'available:match_list' %}">View</a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <a href="#">
+                    <img class="card-img-top" src="{% static 'info/images/attendance2.jpg' %}" alt="">
+                </a>
+                <div class="card-body">
+                    <h4 class="card-title">Assignments</h4>
+                    <p class="card-text">Edit, Update or Delete Assignments</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary" role="button" href="{% url 'available:assign_list' %}">View</a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <!-- /.row -->
+
+</div>
+
+
+<script src="{% static '/info/homepage/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static '/info/homepage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+
+
+
+
+{% endblock %}

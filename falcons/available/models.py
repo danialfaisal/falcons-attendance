@@ -7,6 +7,25 @@ from datetime import timedelta, date
 from django.utils import timezone
 
 
+location = (
+    ('Hefflinger Park-South', 'Hefflinger Park-South'),
+    ('Hefflinger Park-North', 'Hefflinger Park-North'),
+    ('NP Dodge Park', 'NP Dodge Park')
+)
+
+opponent = (
+    ('Tigers', 'Tigers'),
+    ('UNO Durangos', 'UNO Durangos'),
+    ('NCC', 'NCC'),
+    ('Riders', 'Riders'),
+    ('Titans', 'Titans'),
+    ('Komban', 'Komban'),
+    ('Royals', 'Royals'),
+    ('UNO Stallions', 'UNO Stallions')
+
+)
+
+
 class User(AbstractUser):
     @property
     def is_captain(self):
@@ -21,17 +40,18 @@ class User(AbstractUser):
         return False
 
 
-class Captain(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    id = models.CharField(primary_key=True, max_length=100)
-    name = models.CharField(max_length=100)
+class Tournament(models.Model):
+    id = models.CharField(primary_key='True', max_length=100)
+    name = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name
 
 
 
-class Tournament(models.Model):
+class Captain(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    id = models.CharField(primary_key=True, max_length=100)
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -44,42 +64,46 @@ class Player(models.Model):
     id = models.CharField(primary_key=True, max_length=100)
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
-    created_date = models.DateTimeField(default=timezone.now)
-    updated_date = models.DateTimeField(auto_now_add=True)
-
-    def created(self):
-        self.created_date = timezone.now()
-        self.save()
-
-    def updated(self):
-        self.updated_date = timezone.now()
-        self.save()
 
     def __str__(self):
         return self.name
 
 
 
-
 class Match(models.Model):
+    id = models.CharField(primary_key='True', max_length=100)
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
-    match_day = models.DateField(unique=True, db_index=True)
-    match_time = models.TimeField()
-    match_location = models.CharField(max_length=250)
-    opponent = models.CharField(max_length=250)
+    date = models.DateField(db_index=True)
+    time = models.TimeField()
+    location = models.CharField(max_length=50, choices=location, blank=False)
+    opponent = models.CharField(max_length=50, choices=opponent, blank=False)
 
 
     def __str__(self):
-        return "Match at %s %s vs %s" % (self.match_day, self.match_time, self.opponent)
+        return "Match on %s %s vs %s" % (self.date, self.time, self.opponent)
+
+
+class Assign(models.Model):
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    status = models.IntegerField(default=0)
+
+
+    class Meta:
+        unique_together = (('player', 'tournament'),)
+
+    def __str__(self):
+        cl = Tournament.objects.get(id=self.tournament_id)
+        te = Player.objects.get(id=self.player_id)
+        return '%s : %s' % (te.name, cl)
+
 
 
 class Availability(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    assign = models.ForeignKey(Assign, on_delete=models.CASCADE)
     availability = models.BooleanField(default=False)
 
-    class Meta:
-        unique_together = ('match', 'player')
 
     def __str__(self):
-        return "Availability for %s at match %s: %s" % (self.player, self.match, self.availability)
+        return "Availability for match %s: %s" % (self.match, self.availability)

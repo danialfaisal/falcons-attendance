@@ -4,6 +4,10 @@ from . import views
 app_name = 'available'
 urlpatterns = [
     path('', views.index, name='index'),
+    path('matches/<some_id>/players/', views.available_player, name='available_player'),
+    path('tournaments/', views.captain_tournament, name='captain_tournament'),
+    path('tournament/<int:assign_id>/matches/', views.captain_match, name='captain_match'),
+
     path('player/<slug:player_id>/tournaments/', views.player_home, name='player_home'),
     path('player/<int:ass_c_id>/attendance/', views.t_attendance, name='t_attendance'),
     path('player/<int:ass_c_id>/Edit_att/', views.edit_att, name='edit_att'),
@@ -29,7 +33,4 @@ urlpatterns = [
     path('assign/<int:pk>/delete/', views.assign_delete, name='assign_delete'),
 
 
-    path('tournaments/', views.captain_tournament, name='captain_tournament'),
-    path('tournament/<int:assign_id>/matches/', views.captain_match, name='captain_match'),
-    path('matches/<int:assign_id>/players/', views.available_player, name='available_player'),
 ]

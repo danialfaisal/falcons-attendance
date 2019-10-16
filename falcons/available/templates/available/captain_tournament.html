@@ -18,6 +18,8 @@
                     <td>{{ tournament.name }}</td>
                     <td><a href="{% url 'available:captain_match' tournament.id %}" class="btn btn-warning">See Matches</a></td>
                 </tr>
+                {% empty %}
+                <p>No Tournament Exists</p>
             {% endfor %}
             </tbody>
         </table>

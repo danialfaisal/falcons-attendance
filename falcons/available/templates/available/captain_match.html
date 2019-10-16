@@ -24,6 +24,8 @@
                     <td>{{match.opponent}}</td>
                     <td><a href="{% url 'available:available_player' match.id %}" class="btn btn-warning">See Available Players</a></td>
                 </tr>
+            {% empty %}
+                <p>No Player is available for this tournament</p>
             {% endfor %}
             </tbody>
         </table>

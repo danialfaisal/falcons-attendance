@@ -222,7 +222,7 @@ def assign_delete(request, pk):
 
 
 def captain_tournament(request):
-    tournaments = Tournament.objects.filter()
+    tournaments = Tournament.objects.all()
     return render(request, 'available/captain_tournament.html',
                  {'tournaments': tournaments})
 
@@ -234,8 +234,8 @@ def captain_match(request, assign_id):
 
 
 @login_required()
-def available_player(request, assign_id):
-    a = get_object_or_404(Match, id=assign_id)
+def available_player(request, some_id):
+    a = get_object_or_404(Match, id=some_id)
     b = a.availability_set.filter(availability=True)
     context = {
         'a': a,
